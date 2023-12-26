@@ -23,5 +23,5 @@ Deep Q Learning
 0. Initite Q value randomly                          
 1. Choose action (model.predict(state) or random move)
 2. Perform action
-3. Meausre reward
+3. Measure reward
 4. Update Q value and train model. Return to step 1. 

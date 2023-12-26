@@ -36,6 +36,8 @@ class SnakeGameAI:
         self.clock = pygame.time.Clock()
         self.game_step = 0
 
+        self.reset()
+
     def reset(self):
         self.direction = Direction.RIGHT
 
@@ -45,7 +47,6 @@ class SnakeGameAI:
                       Point(self.head.x - (2*BLOCK_SIZE), self.head.y)]
 
         self.score = 0
-        self.food = None
         self._place_food()
 
     def _place_food(self):
@@ -104,7 +105,7 @@ class SnakeGameAI:
 
         self.head = Point(x,y)
     
-    def _collision(self, point=None):
+    def collision(self, point=None):
         if point is None:
             point = self.head
         if point.x > self.w - BLOCK_SIZE or point.x < 0 or point.y > self.h - BLOCK_SIZE or point.y < 0:
@@ -113,7 +114,7 @@ class SnakeGameAI:
         if point in self.snake[1:]:
             return True
 
-    def step(self):
+    def step(self, action):
         global speed
         self.game_step += 1
         # 1. collect user input
@@ -136,7 +137,7 @@ class SnakeGameAI:
         # 3. check if game over
         reward = 0
         game_over = False
-        if self._collision() or self.game_step > 100*len(self.snake):
+        if self.collision() or self.game_step > 100*len(self.snake):
             game_over = True
             reward = -10
             return reward, game_over, self.score
